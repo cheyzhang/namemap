@@ -1,0 +1,131 @@
+{
+  "version": "v1",
+  "config": {
+    "visState": {
+      "layers": [
+        {
+          "id": "b2zo3fh",
+          "type": "point",
+          "config": {
+            "dataId": "my_data",
+            "label": "new layer",
+            "color": [
+              23,
+              184,
+              190,
+              255
+            ],
+            "columns": {
+              "lat": "Y",
+              "lng": "X",
+              "altitude": null
+            },
+            "isVisible": true,
+            "visConfig": {
+              "radius": 10,
+              "fixedRadius": false,
+              "opacity": 0.8,
+              "outline": false,
+              "thickness": 2,
+              "colorRange": {
+                "name": "Global Warming",
+                "type": "sequential",
+                "category": "Uber",
+                "colors": [
+                  "#5A1846",
+                  "#900C3F",
+                  "#C70039",
+                  "#E3611C",
+                  "#F1920E",
+                  "#FFC300"
+                ]
+              },
+              "radiusRange": [
+                0,
+                50
+              ],
+              "hi-precision": false
+            },
+            "textLabel": {
+              "field": null,
+              "color": [
+                255,
+                255,
+                255
+              ],
+              "size": 50,
+              "offset": [
+                0,
+                0
+              ],
+              "anchor": "middle"
+            }
+          },
+          "visualChannels": {
+            "colorField": null,
+            "colorScale": "quantile",
+            "sizeField": null,
+            "sizeScale": "linear"
+          }
+        }
+      ],
+      "filters": [
+        {
+          "dataId": "my_data",
+          "id": "jlrdfg7x5",
+          "name": "Index_Year/01/01 00:00",
+          "type": "timeRange",
+          "value": [
+            -47650982400000,
+            -2808518400000
+          ],
+          "enlarged": true,
+          "plotType": "histogram",
+          "yAxis": null
+        }
+      ],
+      "interactionConfig": {
+        "tooltip": {
+          "fieldsToShow": {
+            "my_data": [
+              "Name_Eng",
+              "Name_Chn",
+              "Index_Year/01/01 00:00",
+              "Sex",
+              "Posting_Name_Chn"
+            ]
+          },
+          "enabled": true
+        },
+        "brush": {
+          "size": 0.5,
+          "enabled": false
+        }
+      },
+      "layerBlending": "normal",
+      "splitMaps": []
+    },
+    "mapState": {
+      "bearing": 0,
+      "dragRotate": false,
+      "latitude": 29.154724316677495,
+      "longitude": 90.6897050714299,
+      "pitch": 0,
+      "zoom": 2.2914861404215983,
+      "isSplit": false
+    },
+    "mapStyle": {
+      "styleType": "muted",
+      "topLayerGroups": {},
+      "visibleLayerGroups": {
+        "label": true,
+        "road": true,
+        "border": false,
+        "building": true,
+        "water": true,
+        "land": true
+      },
+      "mapStyles": {}
+    }
+  }
+}
