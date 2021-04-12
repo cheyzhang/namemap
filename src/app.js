@@ -27,8 +27,8 @@ import ZhangData from './data/ZHANG_dated.csv.js';
 import LiData from './data/LI_dated.csv.js';
 import currConfig from './data/config.json';
 import Form from './components/Form.js'
-// import { Nav, Navbar} from 'react-bootstrap';
-import Navbar from './components/Navbar.js';
+import { Nav, Navbar} from 'react-bootstrap';
+// import Navbar from './components/Navbar.js';
 
 // Kepler.gl actions
 import { addDataToMap } from 'kepler.gl/actions';
@@ -120,19 +120,15 @@ class App extends Component {
     };
     return (
       <div style={{ display: 'flex' }}>
-        <Navbar></Navbar>
-        {/* <Navbar bg="light" variant="light">
-    <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-    <Nav className="mr-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#features">Features</Nav.Link>
-      <Nav.Link href="#pricing">Pricing</Nav.Link>
-    </Nav>
-    <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button variant="outline-primary">Search</Button>
-    </Form>
-  </Navbar> */}
+        {/* <Navbar></Navbar> */}
+        <Navbar bg="light" variant="light">
+          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link href="#pricing">Pricing</Nav.Link>
+          </Nav>
+        </Navbar>
         <div style={mapStyle}>
           {/* <Button onClick={this.exportMapConfig}>Export Config</Button> */}
 
