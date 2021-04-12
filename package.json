@@ -28,9 +28,7 @@
     "deck.gl": "^6.2.4",
     "luma.gl": "^6.2.0",
     "react-map-gl": "^4.0.0",
-    "react-vis": "^1.11.4"
-  },
-  "devDependencies": {
+    "react-vis": "^1.11.4",
     "babel-core": "^6.7.7",
     "babel-loader": "^6.2.10",
     "babel-plugin-inline-json-import": "^0.2.1",
