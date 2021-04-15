@@ -26,6 +26,8 @@ import {syncHistoryWithStore} from 'react-router-redux';
 import {render} from 'react-dom';
 import store from './store';
 import App from './app';
+import Map from './map';
+import About from './about';
 
 const history = syncHistoryWithStore(hashHistory, store);
 
@@ -33,6 +35,8 @@ const Root = () => (
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App} />
+      <Route path="/map" component={Map} />
+      <Route path="/about" component={About} />
     </Router>
   </Provider>
 );

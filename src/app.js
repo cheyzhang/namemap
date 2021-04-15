@@ -20,141 +20,99 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import KeplerGl from 'kepler.gl';
-import WangData from './data/WANG_dated.csv.js';
-import ZhangData from './data/ZHANG_dated.csv.js';
-import LiData from './data/LI_dated.csv.js';
-import currConfig from './data/config.json';
-import Form from './components/Form.js'
-import { Nav, Navbar} from 'react-bootstrap';
-// import Navbar from './components/Navbar.js';
+import Grid from '@material-ui/core/Grid';
 
-// Kepler.gl actions
-import { addDataToMap } from 'kepler.gl/actions';
-// Kepler.gl Data processing APIs
-import Processors from 'kepler.gl/processors';
-// Kepler.gl Schema APIs
-import KeplerGlSchema from 'kepler.gl/schemas';
-import Button from './button';
-import Footer from './footer';
-import downloadJsonFile from "./file-download";
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import { Home, Explore, Info } from '@material-ui/icons';
+import Typography from '@material-ui/core/Typography';
 
-const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 
-class App extends Component {
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 
-  componentDidMount() {
-    // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
-    const data = Processors.processCsvData(WangData);
-    // Create dataset structure
-    const dataset = {
-      data,
-      info: {
-        // `info` property are optional, adding an `id` associate with this dataset makes it easier
-        // to replace it later
-        id: 'my_data'
-      }
-    };
-    // addDataToMap action to inject dataset into kepler.gl instance
-    this.props.dispatch(addDataToMap({
-      datasets: dataset, config: currConfig, options: {
-        centerMap: true,
-        readOnly: true,
-        keepExistingConfig: false
-      }
-    }));
-  }
-
-  // This method is used as reference to show how to export the current kepler.gl instance configuration
-  // Once exported the configuration can be imported using parseSavedConfig or load method from KeplerGlSchema
-  getMapConfig() {
-    // retrieve kepler.gl store
-    const { keplerGl } = this.props;
-    // retrieve current kepler.gl instance store
-    const { map } = keplerGl;
-
-    // create the config object
-    return KeplerGlSchema.getConfigToSave(map);
-  }
-
-  // This method is used as reference to show how to export the current kepler.gl instance configuration
-  // Once exported the configuration can be imported using parseSavedConfig or load method from KeplerGlSchema
-  exportMapConfig = () => {
-    // create the config object
-    const mapConfig = this.getMapConfig();
-    // save it as a json file
-    downloadJsonFile(mapConfig, 'kepler.gl.json');
-  };
-
-  // Created to show how to replace dataset with new data and keeping the same configuration
-  replaceData = new_file_name => {
-    // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
-    const data = Processors.processCsvData(new_file_name);
-    // Create dataset structure
-    const dataset = {
-      data,
-      info: {
-        id: 'my_data'
-        // It is paramount that this id mathces your configuration otherwise the configuration file will be ignored.
-      }
-    };
-
-    // read the current configuration
-    const config = this.getMapConfig();
-
-    // addDataToMap action to inject dataset into kepler.gl instance
-    this.props.dispatch(addDataToMap({ datasets: dataset, config }));
-  };
-
+class About extends Component {
 
   render() {
     const quarter_width = window.innerWidth / 4;
     const quarter_height = window.innerHeight / 4;
-    const mapStyle = {
-      position: 'fixed',
-      width: '50%',
-      height: '50%', 
-      marginTop: quarter_height - 60, 
-      marginLeft: quarter_width
+    // const navStyle = {
+    //   align: 'center'
+    // };
+    // const mapStyle = {
+    //   position: 'fixed',
+    //   width: '50%',
+    //   height: '50%',
+    //   marginTop: quarter_height - 60,
+    //   marginLeft: quarter_width
+    // };
+    const cardStyle = {
+      maxWidth: 500,
+      marginTop: 30,
+      paddingLeft: 30,
+      paddingRight: 30
     };
+    // const navStyle = {
+    //   align: 'center',
+    //   marginTop: 30
+    // };
     return (
-      <div style={{ display: 'flex' }}>
-        {/* <Navbar></Navbar> */}
-        <Navbar bg="light" variant="light">
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-          </Nav>
-        </Navbar>
-        <div style={mapStyle}>
-          {/* <Button onClick={this.exportMapConfig}>Export Config</Button> */}
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
+        <div style={{ marginTop: 30 }}>
+          <BottomNavigation
+            value="hello"
+            onChange={(event, newValue) => {
+              console.log(newValue);
+              if (newValue == 1) {
+                this.props.router.push('/map');
+              }
+              else if (newValue == 2) {
+                this.props.router.push('/about');
+              }
+            }}
+            showLabels
+          // className={classes.root}
+          >
+            <BottomNavigationAction label="Home" icon={<Home />} />
+            <BottomNavigationAction label="Map" icon={<Explore />} />
+            <BottomNavigationAction label="About" icon={<Info />} />
+          </BottomNavigation>
 
-          <div style={{ marginLeft: quarter_width / 2 - 60 }}>
-            <Form width={quarter_width} height={quarter_height}></Form>
-            <Button onClick={() => this.replaceData(LiData)}>Get Li Data</Button>
-            <Button onClick={() => this.replaceData(WangData)}>Get Wang Data</Button>
-            <Button onClick={() => this.replaceData(ZhangData)}>Get Zhang Data</Button>
-          </div>
-
-
-          <AutoSizer>
-            {({ height, width }) => (
-              <KeplerGl
-                mapboxApiAccessToken={MAPBOX_TOKEN}
-                id="map"
-                width={width}
-                height={height}
-                appName="HELLO"
-              />
-            )}
-          </AutoSizer>
         </div>
-        {/* <Footer></Footer> */}
-        {/* <Button style={{marginTop: 500}} onClick={() => this.replaceData(LiData)}>Li Data</Button> */}
-      </div>
+        <div>
+          <Card style={cardStyle}>
+            <CardHeader
+              title="Welcome to NameMap!"
+            />
+            <CardContent>
+              <Typography variant="body1" color="textSecondary" component="p">
+                NameMap maps the spread of individuals of a given Chinese surname over time and provides insights about these groups of people.
+              </Typography>
+              <p></p>
+              <Typography variant="body1" color="textSecondary" component="p">
+                Click "Map" in the navigation bar above to explore.
+              </Typography>
+            </CardContent>
+            <CardMedia
+              component="img"
+              alt="NameMap example"
+              height="300"
+              image="../images/210415.gif"
+              title="NameMap Map"
+            />
+            <p></p>
+            <p></p>
+          </Card>
+        </div>
+      </Grid>
     );
   }
 }
@@ -162,4 +120,4 @@ class App extends Component {
 const mapStateToProps = state => state;
 const dispatchToProps = dispatch => ({ dispatch });
 
-export default connect(mapStateToProps, dispatchToProps)(App);
+export default connect(mapStateToProps, dispatchToProps)(About);
