@@ -34,7 +34,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 
-class About extends Component {
+class Graphs extends Component {
 
   render() {
     const quarter_width = window.innerWidth / 4;
@@ -59,6 +59,11 @@ class About extends Component {
     //   align: 'center',
     //   marginTop: 30
     // };
+    const config = {
+      type: 'line',
+      data,
+      options: {}
+    };
     return (
       <Grid
         container
@@ -88,29 +93,9 @@ class About extends Component {
 
         </div>
         <div>
-          <Card style={cardStyle}>
-            <CardHeader
-              title="Welcome to NameMap!"
-            />
-            <CardContent>
-              <Typography variant="body1" color="textSecondary" component="p">
-                NameMap maps the spread of individuals of a given Chinese surname over time and provides insights about these groups of people.
-              </Typography>
-              <p></p>
-              <Typography variant="body1" color="textSecondary" component="p">
-                Click "Map" in the navigation bar above to explore.
-              </Typography>
-            </CardContent>
-            <CardMedia
-              component="img"
-              alt="NameMap example"
-              height="300"
-              image="../images/210415.gif"
-              title="NameMap Map"
-            />
-            <p></p>
-            <p></p>
-          </Card>
+          <div>
+            <canvas id="myChart"></canvas>
+          </div>
         </div>
       </Grid>
     );

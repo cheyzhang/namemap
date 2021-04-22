@@ -68,7 +68,7 @@ class About extends Component {
       >
         <div style={{ marginTop: 30 }}>
           <BottomNavigation
-            value="hello"
+            value="2"
             onChange={(event, newValue) => {
               console.log(newValue);
               if (newValue == 0) {
@@ -83,7 +83,7 @@ class About extends Component {
           >
             <BottomNavigationAction label="Home" icon={<Home />} />
             <BottomNavigationAction label="Map" icon={<Explore />} />
-            <BottomNavigationAction label="About" icon={<Info />} />
+            <BottomNavigationAction selected="True" label="About" icon={<Info />} />
           </BottomNavigation>
 
         </div>

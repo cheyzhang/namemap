@@ -28,6 +28,7 @@ import store from './store';
 import App from './app';
 import Map from './map';
 import About from './about';
+// import Graphs from './graphs';
 
 const history = syncHistoryWithStore(hashHistory, store);
 
@@ -37,6 +38,7 @@ const Root = () => (
       <Route path="/" component={App} />
       <Route path="/map" component={Map} />
       <Route path="/about" component={About} />
+      {/* <Route path="/graphs" component={Graphs} /> */}
     </Router>
   </Provider>
 );

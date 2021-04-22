@@ -191,7 +191,7 @@ class App extends Component {
       >
         <div style={{ marginTop: 30 }}>
           <BottomNavigation
-            // value={value}
+            value="1"
             onChange={(event, newValue) => {
               console.log(newValue);
               // setValue(newValue);
