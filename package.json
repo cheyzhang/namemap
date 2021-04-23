@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "webpack-dev-server --progress --hot --open"
+    "start": "webpack-dev-server --hot"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
