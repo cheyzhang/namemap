@@ -34,6 +34,11 @@ const CONFIG = {
 
   devtool: 'source-map',
 
+  devServer: {
+    compress: true,
+    public: 'namemap.herokuapp.com' // That solved it
+  },   
+
   resolve: {
     extensions: ['.js', '.jsx', '.css']
   },
