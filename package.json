@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "webpack-dev-server --hot"
+    "start": "webpack-dev-server --hot --port $PORT --host 0.0.0.0"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
