@@ -1,4 +1,5 @@
 // Copyright (c) 2018 Uber Technologies, Inc.
+// Modified by Cheyenne Zhang
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +28,6 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { Home, Explore, Info } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 
-
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -39,26 +39,12 @@ class About extends Component {
   render() {
     const quarter_width = window.innerWidth / 4;
     const quarter_height = window.innerHeight / 4;
-    // const navStyle = {
-    //   align: 'center'
-    // };
-    // const mapStyle = {
-    //   position: 'fixed',
-    //   width: '50%',
-    //   height: '50%',
-    //   marginTop: quarter_height - 60,
-    //   marginLeft: quarter_width
-    // };
     const cardStyle = {
       maxWidth: 500,
       marginTop: 30,
       paddingLeft: 30,
       paddingRight: 30
     };
-    // const navStyle = {
-    //   align: 'center',
-    //   marginTop: 30
-    // };
     return (
       <Grid
         container
@@ -90,16 +76,6 @@ class About extends Component {
         <div>
           <Card style={cardStyle}>
             <CardHeader
-              // avatar={
-              //   <Avatar aria-label="recipe" className={classes.avatar}>
-              //     R
-              // </Avatar>
-              // }
-              // action={
-              //   <IconButton aria-label="settings">
-              //     <MoreVertIcon />
-              //   </IconButton>
-              // }
               title="About NameMap"
               subheader="COS IW 06 - Spring 2021"
             />

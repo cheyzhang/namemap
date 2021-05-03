@@ -1,4 +1,5 @@
 // Copyright (c) 2018 Uber Technologies, Inc.
+// Modified by Cheyenne Zhang
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +35,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 
-class About extends Component {
+class App extends Component {
 
   render() {
     const quarter_width = window.innerWidth / 4;
@@ -59,7 +60,7 @@ class About extends Component {
     //   align: 'center',
     //   marginTop: 30
     // };
-    return (
+    return (      
       <Grid
         container
         direction="column"
@@ -120,4 +121,4 @@ class About extends Component {
 const mapStateToProps = state => state;
 const dispatchToProps = dispatch => ({ dispatch });
 
-export default connect(mapStateToProps, dispatchToProps)(About);
+export default connect(mapStateToProps, dispatchToProps)(App);

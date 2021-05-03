@@ -1,4 +1,5 @@
 // Copyright (c) 2018 Uber Technologies, Inc.
+// Modified by Cheyenne Zhang
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,11 +35,6 @@ const CONFIG = {
 
   devtool: 'source-map',
 
-  devServer: {
-    compress: true,
-    public: 'namemap.herokuapp.com' // That solved it
-  },   
-
   resolve: {
     extensions: ['.js', '.jsx', '.css']
   },
@@ -55,7 +51,6 @@ const CONFIG = {
         exclude: [/node_modules/]
       },
       {
-        // The example has some JSON data
         test: /\.json$/,
         loader: 'json-loader',
         exclude: [/node_modules/]
@@ -67,29 +62,13 @@ const CONFIG = {
           'css-loader'
         ]
       }
-      // {
-      //   test: /\.css$/,
-      //   use: [
-      //     'style-loader',
-      //     {
-      //       loader: 'css-loader',
-      //       options: {
-      //         importLoaders: 1,
-      //         modules: true
-      //       }
-      //     }
-      //   ],
-      //   include: /\.module\.css$/
-      // }
-      // {
-      //   test: /\.css$/,
-      //   use: [
-      //     'style-loader',
-      //     'css-loader'
-      //   ],
-      //   exclude: /\.module\.css$/
-      // }
     ]
+  },
+
+  output: {
+    filename: 'bundle.js',
+    // path: '/Users/cheyennezhang/COSIW06/map-app/dist',
+    publicPath: 'dist/'
   },
 
   node: {

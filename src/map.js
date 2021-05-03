@@ -1,4 +1,5 @@
 // Copyright (c) 2018 Uber Technologies, Inc.
+// Modified by Cheyenne Zhang
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,30 +23,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import KeplerGl from 'kepler.gl';
-import LiData from './data/LI_dated.csv.js';
-import WangData from './data/WANG_dated.csv.js';
-import ZhangData from './data/ZHANG_dated.csv.js';
-import LiStats from '../../LI_stats.txt.js';
-import WangStats from '../../WANG_stats.txt.js';
-import ZhangStats from '../../ZHANG_stats.txt.js';
+import * as ALL_DATA from './data';
+import SurnameDict from './data/surnames.json';
 import Grid from '@material-ui/core/Grid';
 import currConfig from './data/config.json';
-import Form from './components/Form.js'
-// import { Nav, Navbar} from 'react-bootstrap';
-import Navbar from './components/Navbar.js';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { Home, Explore, Info } from '@material-ui/icons';
-import { Provider } from 'react-redux';
-import { hashHistory, Router, Route } from 'react-router';
 
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 // Kepler.gl actions
 import { addDataToMap } from 'kepler.gl/actions';
@@ -53,9 +49,19 @@ import { addDataToMap } from 'kepler.gl/actions';
 import Processors from 'kepler.gl/processors';
 // Kepler.gl Schema APIs
 import KeplerGlSchema from 'kepler.gl/schemas';
-// import Button from './button';
-import Footer from './footer';
 import downloadJsonFile from "./file-download";
+
+// const useStyles = makeStyles((theme) => ({
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120,
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing(2),
+//   },
+// }));
+
+// const classes = useStyles();
 
 const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 
@@ -65,7 +71,7 @@ class App extends Component {
     super(props);
     this.state = { curr: undefined };
     this.title = "";
-    this.text1 = "Click one of the buttons above to get started.";
+    this.text1 = "Choose a last name from the dropdown above to get started. The listed names are the 150 most frequent surnames in the database's sources, ordered from most to least frequent.";
     this.text2 = "";
     this.text3 = "";
     this.mapStyle = {
@@ -76,11 +82,28 @@ class App extends Component {
       // overflow: 'scroll'
       // display: 'none'
     };
+    this.parseData();
+  }
+
+  parseData() {
+    let output_dict = {};
+    let labels = [];
+    for (let curr in SurnameDict) {
+      const key = curr;
+      const val = SurnameDict[curr];
+      const chi = val[0];
+      const py = val[1];
+      const label = chi + "/" + py;
+      output_dict[label] = key;
+      labels.push(label);
+    }
+    this.labels = labels;
+    this.dict = output_dict;
   }
 
   componentDidMount() {
     // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
-    const data = Processors.processCsvData(WangData);
+    const data = Processors.processCsvData(ALL_DATA.WangData);
     // Create dataset structure
     const dataset = {
       data,
@@ -141,37 +164,6 @@ class App extends Component {
     this.props.dispatch(addDataToMap({ datasets: dataset, config }));
   };
 
-  buttonClick(data, id) {
-    this.replaceData(data);
-    this.state.curr = id;
-    this.mapStyle = {
-      position: 'fixed',
-      width: '50%',
-      height: '50%',
-      marginTop: window.innerHeight / 2 + 100,
-    };
-    // console.log(this.state.curr);
-    let stats;
-    let curr_name;
-    if (id == 1) {
-      curr_name = "LI/李";
-      stats = LiStats.split(",");
-    }
-    else if (id == 2) {
-      curr_name = "WANG/王";
-      stats = WangStats.split(",");
-    }
-    else if (id == 3) {
-      curr_name = "ZHANG/张";
-      stats = ZhangStats.split(",");
-    }
-    this.title = "Selected Surname: " + curr_name;
-    // console.log(stats);
-    this.text1 = "We found " + stats[0] + " individuals with the last name " + curr_name + ". ";
-    this.text2 = stats[1] + " were male, and " + stats[2] + " were female.";
-    this.text3 = "At the time, women were only put on record with relation to men. As such, " + stats[3] + " of these women actually had this last name, and " + stats[4] + " were married to men of this last name.";
-  }
-
   render() {
     const quarter_width = window.innerWidth / 4;
     const window_height = window.innerHeight;
@@ -181,85 +173,114 @@ class App extends Component {
       paddingLeft: 30,
       paddingRight: 30
     };
+    const formStyle = {
+      minWidth: 150
+    };
+
+    const handleSelect = (event) => {
+      const label = event.target.value
+      const key = this.dict[label];
+      const stats_name = "ALL_DATA." + key + "Stats";
+      const data_name = "ALL_DATA." + key + "Data";
+      const data = eval(data_name);
+      const stats = eval(stats_name);
+      this.replaceData(data);
+      this.state.curr = key;
+      this.mapStyle = {
+        position: 'fixed',
+        width: '50%',
+        height: '50%',
+        marginTop: window.innerHeight / 2 + 100,
+        marginBottom: 30
+      };
+      let stats_split = stats.split(",");
+
+      this.title = "Selected Surname: " + label;
+      this.text1 = "We found " + stats_split[0] + " individuals with the last name " + label + ". ";
+      this.text2 = stats_split[1] + " were male, and " + stats_split[2] + " were female.";
+      this.text3 = "At the time, women were only put on record with relation to men. As such, " + stats_split[3] + " of these women actually had this last name, and " + stats_split[4] + " were married to men of this last name.";
+
+    };
     return (
-      <div style={{overflow: 'scroll'}}>
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center" 
-      >
-        <div style={{ marginTop: 30 }}>
-          <BottomNavigation
-            value="1"
-            onChange={(event, newValue) => {
-              console.log(newValue);
-              // setValue(newValue);
-              if (newValue == 0) {
-                this.props.router.push('/');
-              }
-              else if (newValue == 2) {
-                this.props.router.push('/about');
-              }
-            }}
-            showLabels
-          // className={classes.root}
-          >
-            <BottomNavigationAction label="Home" icon={<Home />} />
-            <BottomNavigationAction label="Map" icon={<Explore />} />
-            <BottomNavigationAction label="About" icon={<Info />} />
-          </BottomNavigation>
-        </div>
-        <div style={{ justify: "center", alignItems: "center", marginBottom: 30 }}>
-          {/* <Form width={quarter_width} height={quarter_height}></Form> */}
-          <Button variant="outlined" color="primary" style={{ margin: 30 }} onClick={() => this.buttonClick(LiData, 1)}>
-            Get Li Data
-            </Button>
-          <Button variant="outlined" color="primary" style={{ margin: 30 }} onClick={() => this.buttonClick(WangData, 2)}>
-            Get Wang Data
-            </Button>
-          <Button variant="outlined" color="primary" style={{ margin: 30 }} onClick={() => this.buttonClick(ZhangData, 3)}>
-            Get Zhang Data
-            </Button>
-        </div>
-        <div style={this.mapStyle}>
-          {/* <Button onClick={this.exportMapConfig}>Export Config</Button> */}
-          <div style={{ marginLeft: quarter_width / 2 - 60, marginBottom: 30 }}>
-            <Card style={cardStyle}>
-              <CardHeader
-                title={this.title}
-              />
-              <CardContent>
-                <Typography variant="body1" color="textSecondary" component="p">
-                  {this.text1}
-                </Typography>
-                <p></p>
-                <Typography variant="body1" color="textSecondary" component="p">
-                  {this.text2}
-                </Typography>
-                <p></p>
-                <Typography variant="body1" color="textSecondary" component="p">
-                  {this.text3}
-                </Typography>
-              </CardContent>
-            </Card>
+      <div style={{ overflow: 'scroll' }}>
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+        >
+          <div style={{ marginTop: 30 }}>
+            <BottomNavigation
+              value="1"
+              onChange={(event, newValue) => {
+                // setValue(newValue);
+                if (newValue == 0) {
+                  this.props.router.push('/');
+                }
+                else if (newValue == 2) {
+                  this.props.router.push('/about');
+                }
+              }}
+              showLabels
+            // className={classes.root}
+            >
+              <BottomNavigationAction label="Home" icon={<Home />} />
+              <BottomNavigationAction label="Map" icon={<Explore />} />
+              <BottomNavigationAction label="About" icon={<Info />} />
+            </BottomNavigation>
           </div>
+          <div style={{ justify: "center", alignItems: "center", marginBottom: 30 }}>
+            {/* <FormControl className={classes.formControl}> */}
+            <FormControl style={formStyle}>
+              <InputLabel id="demo-simple-select-autowidth-label">Select Last Name</InputLabel>
+              <Select
+                labelId="demo-simple-select-autowidth-label"
+                id="demo-simple-select-autowidth"
+                // value={age}
+                onChange={handleSelect}
+              >
+                {this.labels.map(label => (<MenuItem value={label}>{label}</MenuItem>))}
+              </Select>
+            </FormControl>
 
-          <AutoSizer>
-            {({ height, width }) => (
-              <KeplerGl
-                mapboxApiAccessToken={MAPBOX_TOKEN}
-                id="map"
-                width={width}
-                height={height}
-                appName="HELLO"
-              />
-            )}
-          </AutoSizer>
+          </div>
+          <div style={this.mapStyle}>
+            {/* <Button onClick={this.exportMapConfig}>Export Config</Button> */}
+            <div style={{ marginLeft: quarter_width / 2 - 60, marginBottom: 30 }}>
+              <Card style={cardStyle}>
+                <CardHeader
+                  title={this.title}
+                />
+                <CardContent>
+                  <Typography variant="body1" color="textSecondary" component="p">
+                    {this.text1}
+                  </Typography>
+                  <p></p>
+                  <Typography variant="body1" color="textSecondary" component="p">
+                    {this.text2}
+                  </Typography>
+                  <p></p>
+                  <Typography variant="body1" color="textSecondary" component="p">
+                    {this.text3}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </div>
 
-        </div>
-        {/* <Footer></Footer> */}
-      </Grid>
+            <AutoSizer>
+              {({ height, width }) => (
+                <KeplerGl
+                  mapboxApiAccessToken={MAPBOX_TOKEN}
+                  id="map"
+                  width={width}
+                  height={height}
+                  appName="HELLO"
+                />
+              )}
+            </AutoSizer>
+
+          </div>
+        </Grid>
       </div>
     );
   }
