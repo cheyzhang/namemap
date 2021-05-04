@@ -37,7 +37,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
-import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -50,18 +49,6 @@ import Processors from 'kepler.gl/processors';
 // Kepler.gl Schema APIs
 import KeplerGlSchema from 'kepler.gl/schemas';
 import downloadJsonFile from "./file-download";
-
-// const useStyles = makeStyles((theme) => ({
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120,
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2),
-//   },
-// }));
-
-// const classes = useStyles();
 
 const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 
@@ -78,9 +65,7 @@ class App extends Component {
       position: 'fixed',
       width: '50%',
       height: '50%',
-      marginTop: window.innerHeight / 2 + 100,
-      // overflow: 'scroll'
-      // display: 'none'
+      marginTop: window.innerHeight / 2 + 100
     };
     this.parseData();
   }
@@ -166,7 +151,6 @@ class App extends Component {
 
   render() {
     const quarter_width = window.innerWidth / 4;
-    const window_height = window.innerHeight;
     const cardStyle = {
       maxWidth: 500,
       marginTop: 30,
@@ -230,7 +214,6 @@ class App extends Component {
             </BottomNavigation>
           </div>
           <div style={{ justify: "center", alignItems: "center", marginBottom: 30 }}>
-            {/* <FormControl className={classes.formControl}> */}
             <FormControl style={formStyle}>
               <InputLabel id="demo-simple-select-autowidth-label">Select Last Name</InputLabel>
               <Select

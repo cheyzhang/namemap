@@ -28,38 +28,20 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { Home, Explore, Info } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 
-
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 
 class App extends Component {
 
   render() {
-    const quarter_width = window.innerWidth / 4;
-    const quarter_height = window.innerHeight / 4;
-    // const navStyle = {
-    //   align: 'center'
-    // };
-    // const mapStyle = {
-    //   position: 'fixed',
-    //   width: '50%',
-    //   height: '50%',
-    //   marginTop: quarter_height - 60,
-    //   marginLeft: quarter_width
-    // };
     const cardStyle = {
       maxWidth: 500,
       marginTop: 30,
       paddingLeft: 30,
       paddingRight: 30
     };
-    // const navStyle = {
-    //   align: 'center',
-    //   marginTop: 30
-    // };
     return (      
       <Grid
         container

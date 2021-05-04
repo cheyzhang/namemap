@@ -1,4 +1,5 @@
 // Copyright (c) 2018 Uber Technologies, Inc.
+// Modified by Cheyenne Zhang
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +29,6 @@ import store from './store';
 import App from './app';
 import Map from './map';
 import About from './about';
-// import Test from './test';
-// import Graphs from './graphs';
 
 const history = syncHistoryWithStore(hashHistory, store);
 
@@ -39,7 +38,6 @@ const Root = () => (
       <Route path="/" component={App} />
       <Route path="/map" component={Map} />
       <Route path="/about" component={About} />
-      {/* <Route path="/test" component={Test} /> */}
     </Router>
   </Provider>
 );
