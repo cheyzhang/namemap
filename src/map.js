@@ -221,6 +221,7 @@ class App extends Component {
                 id="demo-simple-select-autowidth"
                 // value={age}
                 onChange={handleSelect}
+                defaultValue=""
               >
                 {this.labels.map(label => (<MenuItem value={label}>{label}</MenuItem>))}
               </Select>

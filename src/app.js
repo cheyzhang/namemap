@@ -53,7 +53,6 @@ class App extends Component {
           <BottomNavigation
             value="0"
             onChange={(event, newValue) => {
-              console.log(newValue);
               if (newValue == 1) {
                 this.props.router.push('/map');
               }
@@ -86,9 +85,9 @@ class App extends Component {
             </CardContent>
             <CardMedia
               component="img"
-              alt="NameMap example"
+              alt="NameMap demo"
               height="300"
-              image="../images/210415.gif"
+              image="../static/demo.gif"
               title="NameMap Map"
             />
             <p></p>
