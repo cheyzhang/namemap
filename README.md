@@ -1,10 +1,10 @@
 # NameMap
 
-NameMap maps the spread of individuals of a given Chinese surname over time and provides insights about these groups of people. It currently supports the top 150 most common Chinese surnames.
+[NameMap](https://github.com/cz10/namemap/) maps the spread of individuals of a given Chinese surname over time and provides insights about these groups of people. It currently supports the top 150 most common Chinese surnames.
+
+![NameMap Demo Gif](/src/static/demo.gif)
 
 NameMap's data comes from [CBDB](https://projects.iq.harvard.edu/cbdb), the China Biographical Database, and contains all individuals who are mapped to valid "postings," i.e. there are records of where they worked in governmental positions. The data was mapped using [KeplerGL](https://kepler.gl), based on starter code from Uber's [Vis Academy](https://vis.academy/#/).
-
-Download NameMap[here](https://github.com/cz10/namemap/).
 
 Created by Cheyenne Zhang, Princeton University '22. Thanks to Professor Brian Kernighan, Dr. Zoe LeBlanc and all the students of COS IW 06.
 
